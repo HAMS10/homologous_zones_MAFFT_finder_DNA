@@ -45,7 +45,7 @@ fft_frequencies_s2 = fft(frequencies_s2, 2 * max_lenght_between_groups - 1);
 
 [c_atgc_k, c_k, diagonals_2_search] = calculate_correlation_of(fft_frequencies_s1, fft_frequencies_s2);
 
-%[homogolous_zones] = calculate_homologous_zones_with(c_k, sequence_1.Sequence, sequence_2.Sequence);
+[homogolous_zones] = find_homologous_zones_of(sequence_1, sequence_2, c_k, diagonals_2_search);
 
 %k_diagonal
 %k(k_diagonal)
