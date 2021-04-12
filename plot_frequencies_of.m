@@ -1,5 +1,5 @@
 function [] = plot_frequencies_of(frequencies_values, input_name)
-    figure();
+    h = figure();
     t = tiledlayout(3, 2,'TileSpacing','Compact');
     nexttile;
     stem(frequencies_values(:,1), 'color','#0072BD');

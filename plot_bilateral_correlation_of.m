@@ -1,7 +1,7 @@
 function [] = plot_bilateral_correlation_of(c_atgc_k, c_k, diagonals_2_search, message)
     k = floor(- length(c_atgc_k) / 2 : length(c_atgc_k) / 2 - 1);
 
-    figure('Name', "Correlation");
+    h = figure('Name', "Correlation");
     t = tiledlayout(3,2,'TileSpacing','Compact');
 
     nexttile(t);

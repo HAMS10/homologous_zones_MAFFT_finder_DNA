@@ -4,7 +4,7 @@ function [] = plot_bilateral_FFT_of(FFT_values, message)
     k = floor(- length(FFT_values) / 2 : length(FFT_values) / 2 - 1);
     FFT_values = [FFT_values( halft_size + 1 : end, :); FFT_values(1 : halft_size, :)];
     
-    figure('Name', ['Bilateral FFT of :', message]);
+    h = figure('Name', ['Bilateral FFT of :', message]);
     t = tiledlayout(3,2,'TileSpacing','Compact');
     
     nexttile(t);
