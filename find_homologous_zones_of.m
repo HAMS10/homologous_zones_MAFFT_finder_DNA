@@ -1,28 +1,58 @@
-function [segmented_homologous_zones, all_homologous_zones,k_values, homologous_cantity] = find_homologous_zones_of(sequence_1, sequence_2, c_k, diagonals_2_search, windows_size, max_number_of_windows)  
-    k_total_index = floor(- length(c_k) / 2 : length(c_k) / 2 - 1);
-    k_values = k_total_index(diagonals_2_search);
-    homologous_cantity = zeros(size(k_values));
-    segmented_homologous_zones = zeros( max_number_of_windows * length(k_values), 5);
-    all_homologous_zones = zeros( max_number_of_windows * length(k_values), 5);
+function [all_zones, zones] = find_homologous_zones_of(sequence_1, sequence_2, k, windows_size)
+    all_zones_format = struct(struct('s1_start', {}, 's1_final', {}, 's2_start', {}, 's2_final', {}, 'score', {}));
+    all_zones = {};
+    all_zones_counter = 1;
+    all_zones = [all_zones, {all_zones_format}];
+    zones = {};
     
-    for k_index = 1 : length(k_values)
-        k = k_values(k_index);
-        if k >= 0
-            [sequence_1_index, sequence_2_index] = adjust_indexes(sequence_1, sequence_2, k);
-            
-            [find_homologous_zones_in_k] = find_segmented_homologous_zones_in(k, sequence_1, sequence_2, sequence_1_index, sequence_2_index, windows_size);
-            segmented_homologous_zones(( 1 : size(find_homologous_zones_in_k, 1) ) + max_number_of_windows * (k_index - 1), 1 : 5 ) = find_homologous_zones_in_k;
-            
-            [find_homologous_zones_in_k, homologous_cantity(k_index)] = find_homologous_zones_in(k, sequence_1, sequence_2, sequence_1_index, sequence_2_index, windows_size);
-            all_homologous_zones(( 1 : size(find_homologous_zones_in_k, 1) ) + max_number_of_windows * (k_index - 1), 1 : 5 ) = find_homologous_zones_in_k;
+    actual_zone = struct('s1_start', 0.0, 's1_final', 0.0, 's2_start', 0.0, 's2_final', 0.0, 'score', 0.0);
+    
+    for k_value = k
+        sequence_1_size = length(sequence_1.Sequence);
+        sequence_2_size = length(sequence_2.Sequence);
+        
+        if k_value >= 0
+            [complete_zone] = adjust_indexes(sequence_1_size, sequence_2_size, k_value);
         else
-            [sequence_2_index, sequence_1_index] = adjust_indexes(sequence_2, sequence_1, k);
+            [complete_zone] = adjust_indexes(sequence_2_size, sequence_1_size, -k_value);
+            tmp = complete_zone.s1_start;
+            complete_zone.s1_start = complete_zone.s2_start;
+            complete_zone.s2_start = tmp;
+            tmp = complete_zone.s1_final;
+            complete_zone.s1_final = complete_zone.s2_final;
+            complete_zone.s2_final = tmp;
+        end
+        windows = fix((complete_zone.s1_final - complete_zone.s1_start + 1) / windows_size);
+        
+        is_first_zone = true;
+        zones_counter = 1;
+        for windows_index = 0 : windows - 1
+            constant_start = windows_size * windows_index;
+            constant_final = windows_size * (windows_index + 1);
+            actual_zone.s1_start = complete_zone.s1_start + constant_start;
+            actual_zone.s1_final = complete_zone.s1_start + constant_final - 1;
+            actual_zone.s2_start = complete_zone.s2_start + constant_start;
+            actual_zone.s2_final = complete_zone.s2_start + constant_final - 1;
             
-            [find_homologous_zones_in_k] = find_segmented_homologous_zones_in(k, sequence_2, sequence_1, sequence_2_index, sequence_1_index, windows_size);
-            segmented_homologous_zones(( 1 : size(find_homologous_zones_in_k, 1) ) + max_number_of_windows * (k_index - 1), 1 : 5 ) = find_homologous_zones_in_k;
+            actual_zone.score = sum_of_pairs(sequence_1, sequence_2, actual_zone, windows_size);
             
-            [find_homologous_zones_in_k, homologous_cantity(k_index)] = find_homologous_zones_in(k, sequence_2, sequence_1, sequence_2_index, sequence_1_index, windows_size);
-            all_homologous_zones(( 1 : size(find_homologous_zones_in_k, 1) ) + max_number_of_windows * (k_index - 1), 1 : 5 ) = find_homologous_zones_in_k;        
+            all_zones{1}(all_zones_counter) = actual_zone;
+            all_zones_counter = all_zones_counter + 1;
+            is_valid_zone = actual_zone.score > 0.7;
+            
+            if is_valid_zone
+                if is_first_zone
+                    is_first_zone = false;
+                    zones = [zones, {all_zones_format}];
+                    zones{length(zones)}(zones_counter) = actual_zone;
+                    zones_counter = zones_counter + 1;
+                else
+                    zones{length(zones)}(zones_counter) = actual_zone;
+                    zones_counter = zones_counter + 1;
+                end
+            end
+            
+            
         end
     end
 end

@@ -1,4 +1,4 @@
-function [] = plot_bilateral_correlation_of(c_atgc_k, c_k, diagonals_2_search, message)
+function [] = plot_bilateral_correlation_of(c_atgc_k, c_k, k_index, message)
     k = floor(- length(c_atgc_k) / 2 : length(c_atgc_k) / 2 - 1);
 
     h = figure('Name', "Correlation");
@@ -31,7 +31,7 @@ function [] = plot_bilateral_correlation_of(c_atgc_k, c_k, diagonals_2_search, m
     nexttile([1, 2]);
     plot(k, c_k);
     hold on;
-    scatter(k(diagonals_2_search), c_k(diagonals_2_search), 'xr');
+    scatter(k(k_index), c_k(k_index), 'xr');
     title([message, 'Correlation of all Nucleotides']);
     legend('c(k)');
     grid minor;
