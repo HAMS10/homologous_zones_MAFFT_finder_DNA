@@ -28,8 +28,8 @@ input_sequences = fastaread('balibase_mdsa_100s/RV12_BBS12039.afa', 'IgnoreGaps'
 %input_sequences = fastaread('msa.afa');
 
 
-sequence_1 = input_sequences(4);
-sequence_2 = input_sequences(7);
+sequence_1 = input_sequences(1);
+sequence_2 = input_sequences(6);
 
 windows_size = 30;
 max_number_of_windows = fix(max(length(sequence_1.Sequence), length(sequence_2.Sequence)) / windows_size);

@@ -8,6 +8,7 @@ function [all_zones, zones] = find_homologous_zones_of(sequence_1, sequence_2, k
     actual_zone = struct('s1_start', 0.0, 's1_final', 0.0, 's2_start', 0.0, 's2_final', 0.0, 'score', 0.0);
     
     for k_value = k
+        k_value
         sequence_1_size = length(sequence_1.Sequence);
         sequence_2_size = length(sequence_2.Sequence);
         
@@ -35,7 +36,7 @@ function [all_zones, zones] = find_homologous_zones_of(sequence_1, sequence_2, k
             actual_zone.s2_final = complete_zone.s2_start + constant_final - 1;
             
             actual_zone.score = sum_of_pairs(sequence_1, sequence_2, actual_zone, windows_size);
-            
+            actual_zone.score
             all_zones{1}(all_zones_counter) = actual_zone;
             all_zones_counter = all_zones_counter + 1;
             is_valid_zone = actual_zone.score > 0.7;

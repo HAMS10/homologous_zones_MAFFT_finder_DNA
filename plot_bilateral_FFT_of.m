@@ -9,25 +9,25 @@ function [] = plot_bilateral_FFT_of(FFT_values, message)
     
     nexttile(t);
     plot(k, abs(FFT_values(:,1)), 'color','#0072BD');
-    title([ message, ':Bilateral FFT of Adenine Nucleotide']);
+    title([ message, ':Bilateral FFT of Adenine']);
     legend('FFT_A(f)');
     grid minor;
 
     nexttile(t);
     plot(k, abs(FFT_values(:,2)), 'color','#A2142F');
-    title([message, ':Bilateral FFT of Thymine Nucleotide']);
+    title([message, ':Bilateral FFT of Thymine']);
     legend('FFT_T(f)');
     grid minor;
 
     nexttile(t);
     plot(k, abs(FFT_values(:,3)), 'color', '#D95319');
-    title([message, ':Bilateral FFT of Guanine Nucleotide']);
+    title([message, ':Bilateral FFT of Guanine']);
     legend('FFT_G(f)');
     grid minor;
 
     nexttile(t);
     plot(k, abs(FFT_values(:,4)), 'color', '#7E2F8E');
-    title([message, ':Bilateral FFT of Cytosine Nucleotide']);
+    title([message, ':Bilateral FFT of Cytosine']);
     legend('FFT_C(f)');
     grid minor;
     

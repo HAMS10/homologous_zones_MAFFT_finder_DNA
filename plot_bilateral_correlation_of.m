@@ -6,25 +6,25 @@ function [] = plot_bilateral_correlation_of(c_atgc_k, c_k, k_index, message)
 
     nexttile(t);
     plot(k, c_atgc_k(:,1), 'color','#0072BD');
-    title([ message, 'Correlation of Adenine Nucleotide']);
+    title([ message, 'Correlation of Adenine']);
     legend('c_A(k)');
     grid minor;
 
     nexttile(t);
     plot(k, c_atgc_k(:,2), 'color','#A2142F');
-    title([message, 'Correlation of Thymine Nucleotide']);
+    title([message, 'Correlation of Thymine']);
     legend('c_T(k)');
     grid minor;
 
     nexttile(t);
     plot(k, c_atgc_k(:,3), 'color', '#D95319');
-    title([message, 'Correlation of Guanine Nucleotide']);
+    title([message, 'Correlation of Guanine']);
     legend('c_G(k)');
     grid minor;
 
     nexttile(t);
     plot(k, c_atgc_k(:,4), 'color', '#7E2F8E');
-    title([message, 'Correlation of Cytosine Nucleotide']);
+    title([message, 'Correlation of Cytosine']);
     legend('c_C(k)');
     grid minor;
 
