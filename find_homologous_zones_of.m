@@ -8,7 +8,6 @@ function [all_zones, zones] = find_homologous_zones_of(sequence_1, sequence_2, k
     actual_zone = struct('s1_start', 0.0, 's1_final', 0.0, 's2_start', 0.0, 's2_final', 0.0, 'score', 0.0);
     
     for k_value = k
-        k_value
         sequence_1_size = length(sequence_1.Sequence);
         sequence_2_size = length(sequence_2.Sequence);
         
@@ -23,20 +22,20 @@ function [all_zones, zones] = find_homologous_zones_of(sequence_1, sequence_2, k
             complete_zone.s1_final = complete_zone.s2_final;
             complete_zone.s2_final = tmp;
         end
-        windows = fix((complete_zone.s1_final - complete_zone.s1_start + 1) / windows_size);
+        zone_size = complete_zone.s1_final - complete_zone.s1_start + 1;
+        windows = fix((zone_size + (zone_size) / windows_size) / windows_size);
         
         is_first_zone = true;
         zones_counter = 1;
         for windows_index = 0 : windows - 1
-            constant_start = windows_size * windows_index;
-            constant_final = windows_size * (windows_index + 1);
+            constant_start = windows_size * windows_index - windows_index;
+            constant_final = windows_size * (windows_index + 1) - windows_index;
             actual_zone.s1_start = complete_zone.s1_start + constant_start;
             actual_zone.s1_final = complete_zone.s1_start + constant_final - 1;
             actual_zone.s2_start = complete_zone.s2_start + constant_start;
             actual_zone.s2_final = complete_zone.s2_start + constant_final - 1;
             
             actual_zone.score = sum_of_pairs(sequence_1, sequence_2, actual_zone, windows_size);
-            actual_zone.score
             all_zones{1}(all_zones_counter) = actual_zone;
             all_zones_counter = all_zones_counter + 1;
             is_valid_zone = actual_zone.score > 0.7;

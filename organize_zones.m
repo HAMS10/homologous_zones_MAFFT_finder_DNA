@@ -26,8 +26,8 @@ if ~isempty(zones)
                 last_zone = actual_zone;
                 contigous_count = contigous_count + 1;
             else
-                are_contigous_zone = (last_zone.s1_final == (actual_zone.s1_start - 1)) && ...
-                    (last_zone.s2_final == (actual_zone.s2_start - 1));
+                are_contigous_zone = (last_zone.s1_final == (actual_zone.s1_start)) && ...
+                    (last_zone.s2_final == (actual_zone.s2_start));
                 is_valid_contigous_zone = contigous_count < max_windows_join;
                 
                 if (are_contigous_zone && is_valid_contigous_zone)

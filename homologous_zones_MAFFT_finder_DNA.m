@@ -5,11 +5,14 @@ global PAM200
 
 base_index = containers.Map({'a', 't', 'g', 'c'}, 1:4);
 
-PAM200 = [  2.22  -1.39   -1.46   -1.86;
-    -1.39   1.65   -1.74   -1.05;
-    -1.46  -1.74    1.03   -2.48;
-    -1.86  -1.05   -2.48    1.16];
-%(1,2)(1,3)(1,4)(1,5)(1,6)(2,9)(4,7)(8,9)(9,10)
+PAM200 = ...
+[2.22  -1.39   -1.46   -1.86;
+-1.39   1.65   -1.74   -1.05;
+-1.46  -1.74    1.03   -2.48;
+-1.86  -1.05   -2.48    1.16];
+
+%(1,2)(1,3)(1,4)(1,6)(3, 4)(3, 6)(3, 7)(4,7)(4, 10)(8,9)(8, 10)(8, 11)(9,10)
+%(1, 5)(2, 9)
 input_sequences = fastaread('balibase_mdsa_100s/RV12_BBS12039.afa', 'IgnoreGaps', true);
 %(1, 2)
 %input_sequences = fastaread('balibase_mdsa_all/RV12_BB12009.afa', 'IgnoreGaps', true);
@@ -21,15 +24,13 @@ input_sequences = fastaread('balibase_mdsa_100s/RV12_BBS12039.afa', 'IgnoreGaps'
 %input_sequences = fastaread('balibase_mdsa_100s/RV11_BBS11002.afa', 'IgnoreGaps', true);
 %(1,4)(3,4)
 %input_sequences = fastaread('balibase_mdsa_all/RV11_BB11025.afa', 'IgnoreGaps', true);
-
 %(6,7)
 %input_sequences = fastaread('orchidaceae_family/mRNA/orchidaceae_family.fasta', 'IgnoreGaps', true);
 
 %input_sequences = fastaread('msa.afa');
 
-
 sequence_1 = input_sequences(1);
-sequence_2 = input_sequences(6);
+sequence_2 = input_sequences(3);
 
 windows_size = 30;
 max_number_of_windows = fix(max(length(sequence_1.Sequence), length(sequence_2.Sequence)) / windows_size);
